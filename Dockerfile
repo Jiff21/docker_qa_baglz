@@ -80,18 +80,18 @@ RUN wget --no-cookies \
 # https://wiki.alpinelinux.org/wiki/Installing_Oracle_Java ????
 RUN mkdir -p /opt/java \
   && mv jdk-9.0.4_linux-x64_bin.tar.gz  /opt/java/jdk-9.0.4_linux-x64_bin.tar.gz \
-  && cd /opt/java
+  && cd /opt/java \
   && tar zxvf jdk-9.0.4_linux-x64_bin.tar.gz
 
-RUN ln -s /opt/java/jdk-9.0.4/bin /opt/java/current \
+RUN ln -s /opt/java/jdk-9.0.4 /opt/java/current \
   && rm jdk-9.0.4_linux-x64_bin.tar.gz \
   && touch /etc/profile.d/java.sh \
   && echo -e 'export JAVA_HOME=/opt/java/current\nexport PATH=$PATH:$JAVA_HOME/bin' >> /etc/profile.d/java.sh \
   && sh /etc/profile.d/java.sh \
-  && paxctl -c /opt/java/jdk-9.0.4/bin/java \
-  && paxctl -m /opt/java/jdk-9.0.4/bin/java \
-  && paxctl -c /opt/java/jdk-9.0.4/bin/javac \
-  && paxctl -m /opt/java/jdk-9.0.4/bin/javac \
+  && paxctl -c jdk-9.0.4/bin/java \
+  && paxctl -m jdk-9.0.4/bin/java \
+  && paxctl -c jdk-9.0.4/bin/javac \
+  && paxctl -m jdk-9.0.4/bin/javac \
   && setfattr -n user.pax.flags -v "mr" /opt/java/jdk-9.0.4/bin/java \
   && setfattr -n user.pax.flags -v "mr" /opt/java/jdk-9.0.4/bin/javac \
   && cd / \
