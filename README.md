@@ -1,0 +1,1 @@
+A base docker image. Built off Python with Selenium JAR (Hubs & Nodes), Chrome, Firefox, and installed. Also includes python installs for Behave, Allure, Locustio, Galen Framework and Zap (Baglz stack).  

@@ -1,0 +1,14 @@
+node_modules
+dist
+.tmp
+.DS_Store
+bower_components
+npm-debug.log
+*.pyc
+*__pycache__*
+geckodriver.log
+jmeter.log
+log.txt
+
+## Ignnore VirtualEnv Installs
+env/
