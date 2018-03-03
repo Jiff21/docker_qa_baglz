@@ -27,7 +27,7 @@ RUN apk --update --no-cache add\
   mysql-dev\
   nasm\
   nodejs\
-  openjdk7-jre\
+  openjdk8-jre\
   openssh-client\
   paxctl \
   python3\
@@ -66,43 +66,14 @@ RUN pip3 install allure-behave==2.3.2b1 \
   requests-toolbelt==0.8.0 \
   zapcli==0.8.0
 
-ENV JAVA_VERSION=9.0.4
-ENV JAVA_HOME=/opt/java/current
-ENV PATH=$PATH:$JAVA_HOME/bin
-
-RUN wget --no-cookies \
-  --no-check-certificate \
-  --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-  "http://download.oracle.com/otn-pub/java/jdk/9.0.4+11/c2514751926b4512b076cc82f959763f/jdk-9.0.4_linux-x64_bin.tar.gz"
-
-
-
-# https://wiki.alpinelinux.org/wiki/Installing_Oracle_Java ????
-RUN mkdir -p /opt/java \
-  && mv jdk-9.0.4_linux-x64_bin.tar.gz  /opt/java/jdk-9.0.4_linux-x64_bin.tar.gz \
-  && cd /opt/java \
-  && tar zxvf jdk-9.0.4_linux-x64_bin.tar.gz
-
-RUN ln -s /opt/java/jdk-9.0.4 /opt/java/current \
-  && rm jdk-9.0.4_linux-x64_bin.tar.gz \
-  && touch /etc/profile.d/java.sh \
-  && echo -e 'export JAVA_HOME=/opt/java/current\nexport PATH=$PATH:$JAVA_HOME/bin' >> /etc/profile.d/java.sh \
-  && sh /etc/profile.d/java.sh \
-  && paxctl -c jdk-9.0.4/bin/java \
-  && paxctl -m jdk-9.0.4/bin/java \
-  && paxctl -c jdk-9.0.4/bin/javac \
-  && paxctl -m jdk-9.0.4/bin/javac \
-  && setfattr -n user.pax.flags -v "mr" /opt/java/jdk-9.0.4/bin/java \
-  && setfattr -n user.pax.flags -v "mr" /opt/java/jdk-9.0.4/bin/javac \
-  && cd / \
-  && java -version
+RUN java -version
 
 # Galen install other than NPM?
-#RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \
-#  && unzip galen-bin-$GALEN_VERSION \
-#  && cd galen-bin-$GALEN_VERSION \
-#  && . install.sh \
-#  && cd ..
+RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \
+  && unzip galen-bin-$GALEN_VERSION \
+  && cd galen-bin-$GALEN_VERSION \
+  && . install.sh \
+  && cd ..
 
 
-# RUN galen serve
+RUN galen serve
