@@ -3,7 +3,7 @@ set -ex
 # docker hub username
 USERNAME=jiffcampbell
 # image name
-IMAGE=qa_bazlz
+IMAGE=qa_baglz
 
 # ensure we're up to date
 git pull
@@ -13,7 +13,7 @@ version=`cat VERSION`
 echo "version: $version"
 
 # run build
-docker build .
+docker build . -t $IMAGE:$version
 
 # tag it
 git add -A
