@@ -38,6 +38,7 @@ RUN apk --update --no-cache add\
 
 # Pull latest Selenium Standalone JAR
 RUN curl -L https://goo.gl/hvDPsK --output /usr/bin/selenium.jar
+COPY /files/nodeconfig.json /usr/nodeconfig.json
 
 # Install geckodriver
 RUN wget -qO- https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz | tar xvz \
@@ -76,4 +77,4 @@ RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_
   && cd ..
 
 
-RUN galen serve
+ENTRYPOINT /
