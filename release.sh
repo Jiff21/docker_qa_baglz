@@ -1,3 +1,5 @@
+#!/bin/sh
+
 set -ex
 # SET THE FOLLOWING VARIABLES
 # docker hub username
