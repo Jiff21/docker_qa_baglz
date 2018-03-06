@@ -32,3 +32,6 @@ Run a Galen Test
 ```
 galen test path/to/tests_folder/  --config path/to/galen.config
 ```
+
+Dev:
+If you are changing the project you may need to run `chmod +x release.sh` to create new releases.

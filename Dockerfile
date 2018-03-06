@@ -76,6 +76,7 @@ RUN java -version
 RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \
   && unzip galen-bin-$GALEN_VERSION \
   && cd galen-bin-$GALEN_VERSION \
+  && chmod +x install.sh \
   && . install.sh \
   && cd ..
 
