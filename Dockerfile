@@ -3,8 +3,24 @@ FROM alpine:3.4
 MAINTAINER Jiff Campbell
 ADD VERSION .
 
+ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.5"
+
+
+# Selenium Hub Settings
+ENV GRID_MAX_SESSION=""
+ENV GRID_TIMEOUT="60"
+ENV GRID_BROWSER_TIMEOUT="60"
+ENV SHM_SIZE="512MB"
+ENV GRID_NEW_SESSION_WAIT_TIMEOUT="60"
+# Node settings
+ENV HUB_PORT_4444_TCP_ADDR="hub"
+ENV NODE_MAX_INSTANCES=5
+ENV NODE_MAX_SESSION=5
+ENV HUB_PORT_4444_TCP_PORT=4.4.4.4
 ENV BROWSER="chrome"
-ENV NODE_BROWSER_VERSION="chrome"
+ENV FIREFOX_VERSION="58.0.1"
+ENV SE_OPTS=""
+# Local install Versions
 ENV GECKODRIVER_VERSION=0.19.1
 ENV GALEN_VERSION=2.3.6
 
@@ -70,7 +86,6 @@ RUN pip3 install allure-behave==2.3.2b1 \
   requests-toolbelt==0.8.0 \
   zapcli==0.8.0
 
-RUN java -version
 
 # Galen install other than NPM?
 RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \
@@ -81,4 +96,4 @@ RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_
   && cd ..
 
 
-ENTRYPOINT /
+CMD ["/bin/sh"]
