@@ -10,9 +10,11 @@ IMAGE=qa_baglz
 # ensure we're up to date
 git pull
 
-# bump version
-version=`cat VERSION`
-echo "version: $version"
+# bump version which provides something to commit.
+old_version=`cat VERSION`
+version=$(echo "x=$old_version + 0.1; if(x<1) print 0; x" | bc)
+echo "Upgrading version from $old_version to version: $version"
+echo "$version" > VERSION
 
 # run build
 docker build . -t $IMAGE:$version
