@@ -95,5 +95,6 @@ RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_
   && . install.sh \
   && cd ..
 
+COPY chrome_extensions/ usr/bin/chrome_extensions/
 
 CMD ["/bin/sh"]
