@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.8
 
 MAINTAINER Jiff Campbell
 ADD VERSION .
@@ -73,18 +73,18 @@ RUN LATEST_CHROMEDRIVER=$(curl https://chromedriver.storage.googleapis.com/LATES
 
 # Update pip and install all test dependencies.
 RUN pip3 install --upgrade pip setuptools
-RUN pip3 install allure-behave==2.3.2b1 \
-  git+https://github.com/behave/behave \
+RUN pip3 install allure-behave==2.4.1 \
+  behave==1.2.6 \
   chai==1.1.2 \
   google-auth==1.4.1 \
   google-api-python-client==1.6.5 \
   locustio==0.8.1 \
   pyHamcrest==1.9.0 \
-  python-owasp-zap-v2.4==0.0.11 \
-  pyzmq==16.0.2 selenium==3.8.1 \
+  python-owasp-zap-v2.4==0.0.12 \
+  pyzmq==16.0.2 \
+  selenium==3.12.0 \
   requests==2.18.1 \
-  requests-toolbelt==0.8.0 \
-  zapcli==0.8.0
+  requests-toolbelt==0.8.0
 
 
 # Galen install other than NPM?
@@ -93,7 +93,8 @@ RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_
   && cd galen-bin-$GALEN_VERSION \
   && chmod +x install.sh \
   && . install.sh \
-  && cd ..
+  && cd .. \
+  && rm galen-bin-$GALEN_VERSION.zip
 
 COPY chrome_extensions/ usr/bin/chrome_extensions/
 
