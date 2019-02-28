@@ -5,7 +5,6 @@ ADD VERSION .
 
 ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.5"
 
-ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.6/site-packages/"
 
 # Selenium Hub Settings
 ENV GRID_MAX_SESSION=""
@@ -60,15 +59,30 @@ RUN apk --update --no-cache add\
 RUN curl -L https://goo.gl/hvDPsK --output /usr/bin/selenium.jar
 COPY /files/nodeconfig.json /usr/nodeconfig.json
 
-# Install latest Geckodriver & Chromedriver
-COPY geckodriver.sh /geckodriver.sh
-RUN ./geckodriver.sh
-COPY chromedriver.sh /chromedriver.sh
-RUN ./chromedriver.sh
+# Install geckodriver
+# RUN wget -qO- https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz | tar xvz \
+#   && mv geckodriver /usr/bin/geckodriver
 
-# Get binary for running browsermob.
-COPY browsermob_install.sh /browsermob_install.sh
-RUN ./browsermob_install.sh && rm browsermob_install.sh
+# RUN GECKODRIVER_REDIRECT=$(get https://github.com/mozilla/geckodriver/releases/latest) \
+#   && if [[ $GECKODRIVER_REDIRECT =~ v([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)\"\> ]]; then LATEST_GECKODRIVER=${BASH_REMATCH[1]}; fi \
+#     && get -qO- https://github.com/mozilla/geckodriver/releases/download/v$LATEST_GECKODRIVER/geckodriver-v$LATEST_GECKODRIVER-linux64.tar.gz | tar xvz \
+#     && mv geckodriver /usr/bin/geckodriver
+
+RUN GECKODRIVER_REDIRECT=$(curl https://github.com/mozilla/geckodriver/releases/latest) \
+&& if [[ $GECKODRIVER_REDIRECT =~ v([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)\"\> ]]; then LATEST_GECKODRIVER=${BASH_REMATCH[1]}; fi \
+  && get -qO- https://github.com/mozilla/geckodriver/releases/download/v$LATEST_GECKODRIVER/geckodriver-v$LATEST_GECKODRIVER-linux64.tar.gz | tar xvz \
+  && mv geckodriver /usr/bin/geckodriver
+
+
+
+# Pull latest chromedriver and put in path.
+RUN LATEST_CHROMEDRIVER=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
+  && wget https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip \
+  && unzip chromedriver_linux64.zip \
+  && mv chromedriver /usr/bin/chromedriver \
+  && rm chromedriver_linux64.zip
+
+
 
 # Update pip and install all test dependencies.
 RUN pip3 install --upgrade pip setuptools
@@ -76,8 +90,8 @@ RUN pip3 install allure-behave==2.5.0 \
   behave==1.2.6 \
   browsermob-proxy==0.8.0 \
   chai==1.1.2 \
-  google-auth==1.5.1 \
-  google-api-python-client==1.7.7 \
+  google-auth==1.4.1 \
+  google-api-python-client==1.6.5 \
   locustio==0.8.1 \
   pyHamcrest==1.9.0 \
   python-dotenv==0.9.1 \
@@ -86,6 +100,7 @@ RUN pip3 install allure-behave==2.5.0 \
   selenium==3.14.1 \
   requests==2.20.1 \
   requests-toolbelt==0.8.0
+
 
 # Galen install
 RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \
