@@ -73,13 +73,16 @@ RUN ./browsermob_install.sh && rm browsermob_install.sh
 # Update pip and install all test dependencies.
 RUN pip3 install --upgrade pip setuptools
 RUN pip3 install allure-behave==2.5.0 \
+  bandit==1.5.1 \
   behave==1.2.6 \
   browsermob-proxy==0.8.0 \
   chai==1.1.2 \
   google-auth==1.5.1 \
   google-api-python-client==1.7.7 \
   locustio==0.8.1 \
+  pillow==5.4.1 \
   pyHamcrest==1.9.0 \
+  pylint==2.2.2 \
   python-dotenv==0.9.1 \
   python-owasp-zap-v2.4==0.0.12 \
   pyzmq==16.0.2 \

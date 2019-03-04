@@ -34,4 +34,4 @@ galen test path/to/tests_folder/  --config path/to/galen.config
 ```
 
 Dev:
-If you are changing the project you may need to run `chmod +x release.sh` to create new releases. Do not bump version number prior to release, shell script does that which provides something for it to commit which prevents an error. 
+If you are changing the project you may need to Login to Docker `docker login` (or through gui) then run `chmod +x release.sh` to create new releases. Do not bump version number prior to release, shell script does that which provides something for it to commit which prevents an error.
