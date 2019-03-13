@@ -32,6 +32,8 @@ RUN apk --update --no-cache add\
   automake \
   bash\
   build-base\
+  chromium\
+  chromium-chromedriver\
   curl\
   git\
   gzip \
@@ -56,6 +58,7 @@ RUN apk --update --no-cache add\
   unzip\
   wget
 
+
 # Pull latest Selenium Standalone JAR
 RUN curl -L https://goo.gl/hvDPsK --output /usr/bin/selenium.jar
 COPY /files/nodeconfig.json /usr/nodeconfig.json
@@ -63,8 +66,7 @@ COPY /files/nodeconfig.json /usr/nodeconfig.json
 # Install latest Geckodriver & Chromedriver
 COPY geckodriver.sh /geckodriver.sh
 RUN ./geckodriver.sh
-COPY chromedriver.sh /chromedriver.sh
-RUN ./chromedriver.sh
+# Using chromium-chromedriver package for now.
 
 # Get binary for running browsermob.
 COPY browsermob_install.sh /browsermob_install.sh
